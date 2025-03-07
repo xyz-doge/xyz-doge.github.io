@@ -3,3 +3,4 @@ document.addEventListener("scroll", function() {
     let scrollPosition = window.scrollY;
     hero.style.backgroundPositionY = scrollPosition * 0.5 + "px";
 });
+
