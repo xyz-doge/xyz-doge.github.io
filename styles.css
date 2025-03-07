@@ -8,9 +8,9 @@
 }
 
 body {
-    background: linear-gradient(45deg, #ff7eb3, #ff758c, #ff6b81, #ff5566);
+    background: linear-gradient(45deg, #ff6b81, #ff758c, #ff7eb3, #ff8eb2);
     background-size: 400% 400%;
-    animation: gradientAnimation 10s ease infinite;
+    animation: gradientAnimation 8s ease infinite;
     text-align: center;
     color: white;
 }
@@ -26,7 +26,7 @@ header {
     width: 100%;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
     padding: 15px;
 }
 
@@ -55,7 +55,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #ff7eb3;
+    color: #ffeb3b;
 }
 
 .hero {
@@ -114,14 +114,15 @@ section {
 }
 
 .social-icons a {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 10px;
     color: white;
+    text-decoration: none;
     transition: 0.3s;
 }
 
 .social-icons a:hover {
-    color: #ff7eb3;
+    color: #ffeb3b;
 }
 
 footer {
@@ -133,3 +134,4 @@ footer a {
     color: white;
     text-decoration: none;
 }
+
