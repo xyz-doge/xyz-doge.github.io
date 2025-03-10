@@ -7,7 +7,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* 🌊 蓝色渐变背景 (首页) */
+/* 🌊 蓝色渐变背景 */
 body {
   background: linear-gradient(-45deg, #001f3f, #005f99, #0099cc, #00ccff);
   background-size: 400% 400%;
@@ -34,7 +34,7 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* Header 样式 */
+/* Header */
 header {
   position: fixed;
   width: 100%;
@@ -89,16 +89,16 @@ nav ul li a:hover {
   overflow: hidden;
   white-space: nowrap;
   letter-spacing: 0.1em;
-  animation: typing 3s steps(7, end) forwards;
-  font-size: 3.5rem; /* 放大一些 */
+  /* steps(7, end) -> 7 个字母；to { width: 8ch } 避免最后字母被截 */
+  animation: typing 1.8s steps(7, end) forwards;
+  font-size: 3.8rem; 
   font-weight: 700;
   text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
 }
 
-/* 只让字母逐字出现，不加闪烁 */
 @keyframes typing {
   from { width: 0; }
-  to { width: 7ch; }
+  to { width: 8ch; }
 }
 
 .hero p {
@@ -127,7 +127,7 @@ nav ul li a:hover {
   transform: scale(1.1);
 }
 
-/* Section 样式 */
+/* Section */
 section {
   padding: 60px 20px;
   width: 80%;
@@ -180,7 +180,7 @@ section {
   transform: scale(1.1);
 }
 
-/* Contact 样式 */
+/* Contact */
 .wechat {
   margin-top: 10px;
   font-size: 1.1rem;
