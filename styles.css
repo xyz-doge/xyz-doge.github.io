@@ -1,161 +1,219 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* 🌊 更明显的蓝色渐变背景 */
+/* 🌊 蓝色渐变背景（主页） */
 body {
-    background: linear-gradient(-45deg, #001f3f, #005f99, #0099cc, #00ccff);
-    background-size: 400% 400%;
-    animation: gradientAnimation 6s ease infinite;
-    text-align: center;
-    color: white;
+  background: linear-gradient(-45deg, #001f3f, #005f99, #0099cc, #00ccff);
+  background-size: 400% 400%;
+  animation: gradientAnimation 6s ease infinite;
+  text-align: center;
+  color: white;
 }
 
-/* 💡 增强渐变动画 */
+/* 🕹️ 游戏页面的背景单独设定 */
+.game-body {
+  background: #222; /* 与主页区分开来 */
+  color: #fff;
+}
+
+/* 💡 背景渐变动画 */
 @keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* 🏆 让 Header 变得更加酷炫 */
+/* 顶部导航 */
 header {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 15px;
-    transition: 0.5s;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  transition: 0.5s;
+  z-index: 999;
 }
 
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
 }
 
 nav ul {
-    list-style: none;
-    display: flex;
+  list-style: none;
+  display: flex;
 }
 
 nav ul li {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-size: 18px;
-    transition: 0.3s;
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  transition: 0.3s;
 }
 
 nav ul li a:hover {
-    color: #00ccff;
+  color: #00ccff;
 }
 
-/* 🎯 加大 Welcome 标题 */
+/* Hero Section */
 .hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
 }
 
-.hero h1 {
-    font-size: 5rem; /* 变大 */
-    font-weight: 700;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+/* 打字机动画 */
+.typewriter {
+  overflow: hidden;
+  border-right: 3px solid white;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  animation: typing 3s steps(30, end) forwards, blink 0.75s step-end infinite;
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
 }
 
 .hero p {
-    font-size: 1.5rem;
-    margin-top: 10px;
+  font-size: 1.2rem;
+  margin-top: 10px;
 }
 
-/* 🚀 炫酷按钮 */
 .btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 15px 35px;
-    font-size: 1.2rem;
-    color: white;
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid white;
-    border-radius: 30px;
-    text-decoration: none;
-    transition: 0.3s;
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  font-size: 1rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid white;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: 0.3s;
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
 }
 
 .btn:hover {
-    background: white;
-    color: #005f99;
-    transform: scale(1.1);
+  background: white;
+  color: #005f99;
+  transform: scale(1.1);
 }
 
-/* 🔹 让页面 section 增加透明玻璃效果 */
+/* 公共 Section 样式 */
 section {
-    padding: 60px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    margin: 20px auto;
-    width: 80%;
-    backdrop-filter: blur(10px);
+  padding: 60px 20px;
+  width: 80%;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+  margin-top: 80px; /* 避免被 header 遮挡 */
 }
 
-/* 🏆 Hobby 栏目增加卡片效果 */
+/* Hobbies 卡片 */
 .project-grid {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .project {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    border-radius: 15px;
-    width: 320px;
-    transition: 0.3s;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  transition: 0.3s;
 }
 
 .project:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.4);
 }
 
-/* 💙 社交媒体图标更大更炫 */
+/* Mini Game 按钮 */
+.game-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 15px 35px;
+  font-size: 1.2rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: 0.3s;
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+}
+
+.game-btn:hover {
+  background: white;
+  color: #005f99;
+  transform: scale(1.1);
+}
+
+/* Contact 样式 */
+.wechat {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .social-icons a {
-    font-size: 2rem;
-    margin: 10px;
-    color: white;
-    text-decoration: none;
-    transition: 0.3s;
+  font-size: 2rem;
+  margin: 10px;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
 }
 
 .social-icons a:hover {
-    color: #00ccff;
-    transform: scale(1.2);
+  color: #00ccff;
+  transform: scale(1.2);
 }
 
-/* 🌙 Footer 变暗 */
+/* Footer */
 footer {
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  margin-top: 30px;
 }
 
 footer a {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
+}
+
+/* 🎮 游戏画布 */
+#gameCanvas {
+  border: 2px solid white;
+  background: #333;
+  display: block;
+  margin: 20px auto;
 }
