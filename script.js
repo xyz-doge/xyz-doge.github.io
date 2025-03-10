@@ -1,7 +1,7 @@
-// 仅在 game.html 生效
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
+    // 如果当前页面没有 gameCanvas，就不执行游戏逻辑
     const gameCanvas = document.getElementById("gameCanvas");
-    if (!gameCanvas) return; // 如果不在 game.html，直接退出
+    if (!gameCanvas) return;
   
     const ctx = gameCanvas.getContext("2d");
     const width = gameCanvas.width;
@@ -27,9 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
       speed: 3
     };
   
-    // 游戏循环
     function update() {
-      // 清屏
       ctx.clearRect(0, 0, width, height);
   
       // 绘制玩家
@@ -40,18 +38,18 @@ document.addEventListener("DOMContentLoaded", function() {
       ctx.fillStyle = "red";
       ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
   
-      // 让障碍物移动
+      // 障碍物向左移动
       obstacle.x -= obstacle.speed;
       if (obstacle.x < -obstacle.width) {
         obstacle.x = width;
       }
   
-      // 重力 & 跳跃
+      // 处理跳跃
       player.y += player.vy;
       player.vy += player.gravity;
   
-      // 碰到地面
-      if (player.y + player.size > height) {
+      // 落地检测
+      if (player.y + player.size >= height) {
         player.y = height - player.size;
         player.vy = 0;
         player.onGround = true;
@@ -60,15 +58,14 @@ document.addEventListener("DOMContentLoaded", function() {
       requestAnimationFrame(update);
     }
   
-    // 监听按键
-    document.addEventListener("keydown", function(e) {
+    // 键盘事件
+    document.addEventListener("keydown", (e) => {
       if ((e.key === " " || e.key === "ArrowUp") && player.onGround) {
         player.vy = -player.jumpForce;
         player.onGround = false;
       }
     });
   
-    // 启动游戏
     update();
   });
   

@@ -7,7 +7,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* 🌊 蓝色渐变背景（主页） */
+/* 🌊 原有蓝色渐变背景 */
 body {
   background: linear-gradient(-45deg, #001f3f, #005f99, #0099cc, #00ccff);
   background-size: 400% 400%;
@@ -16,20 +16,24 @@ body {
   color: white;
 }
 
-/* 🕹️ 游戏页面的背景单独设定 */
+/* 游戏页面也用相同的渐变背景 */
 .game-body {
-  background: #222; /* 与主页区分开来 */
-  color: #fff;
+  background: linear-gradient(-45deg, #001f3f, #005f99, #0099cc, #00ccff);
+  background-size: 400% 400%;
+  animation: gradientAnimation 6s ease infinite;
+  text-align: center;
+  color: white;
+  min-height: 100vh;
 }
 
-/* 💡 背景渐变动画 */
+/* 动态背景动画 */
 @keyframes gradientAnimation {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* 顶部导航 */
+/* Header 样式 */
 header {
   position: fixed;
   width: 100%;
@@ -69,7 +73,7 @@ nav ul li a:hover {
   color: #00ccff;
 }
 
-/* Hero Section */
+/* Hero 区域 */
 .hero {
   height: 100vh;
   display: flex;
@@ -79,7 +83,7 @@ nav ul li a:hover {
   padding: 80px 20px;
 }
 
-/* 打字机动画 */
+/* 打字机动画：保留 Welcome 原文字 */
 .typewriter {
   overflow: hidden;
   border-right: 3px solid white;
@@ -105,6 +109,7 @@ nav ul li a:hover {
   margin-top: 10px;
 }
 
+/* 按钮样式 */
 .btn {
   display: inline-block;
   margin-top: 20px;
@@ -125,7 +130,7 @@ nav ul li a:hover {
   transform: scale(1.1);
 }
 
-/* 公共 Section 样式 */
+/* Section 样式 */
 section {
   padding: 60px 20px;
   width: 80%;
@@ -136,7 +141,7 @@ section {
   margin-top: 80px; /* 避免被 header 遮挡 */
 }
 
-/* Hobbies 卡片 */
+/* Hobbies 区域卡片 */
 .project-grid {
   display: flex;
   justify-content: center;
@@ -178,7 +183,7 @@ section {
   transform: scale(1.1);
 }
 
-/* Contact 样式 */
+/* Contact 区域 */
 .wechat {
   margin-top: 10px;
   font-size: 1.1rem;
@@ -210,7 +215,7 @@ footer a {
   text-decoration: none;
 }
 
-/* 🎮 游戏画布 */
+/* 游戏画布 */
 #gameCanvas {
   border: 2px solid white;
   background: #333;
