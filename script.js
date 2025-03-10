@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 如果当前页面没有 gameCanvas，就不执行游戏逻辑
     const gameCanvas = document.getElementById("gameCanvas");
-    if (!gameCanvas) return;
+    const scoreDisplay = document.getElementById("scoreDisplay");
+  
+    // 如果当前页面没有 gameCanvas，就不执行游戏逻辑
+    if (!gameCanvas || !scoreDisplay) return;
   
     const ctx = gameCanvas.getContext("2d");
     const width = gameCanvas.width;
@@ -27,6 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
       speed: 3
     };
   
+    let score = 0;
+    let scored = false; // 是否已经加过分
+  
     function update() {
       ctx.clearRect(0, 0, width, height);
   
@@ -38,13 +43,37 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillStyle = "red";
       ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
   
-      // 障碍物向左移动
+      // 障碍物移动
       obstacle.x -= obstacle.speed;
+      // 若障碍物离开屏幕，重置位置，并重置 scored
       if (obstacle.x < -obstacle.width) {
         obstacle.x = width;
+        scored = false; // 新一轮可加分
       }
   
-      // 处理跳跃
+      // 碰撞检测 (AABB)
+      if (
+        player.x < obstacle.x + obstacle.width &&
+        player.x + player.size > obstacle.x &&
+        player.y < obstacle.y + obstacle.height &&
+        player.y + player.size > obstacle.y
+      ) {
+        // 撞到障碍物 -1
+        score--;
+        scoreDisplay.textContent = `Score: ${score}`;
+        // 重置障碍物位置，重新开始
+        obstacle.x = width;
+        scored = false;
+      }
+  
+      // 如果玩家成功超过障碍物（障碍物右边 < 玩家左边），加分
+      if (!scored && (obstacle.x + obstacle.width < player.x)) {
+        score++;
+        scoreDisplay.textContent = `Score: ${score}`;
+        scored = true; 
+      }
+  
+      // 重力 & 跳跃
       player.y += player.vy;
       player.vy += player.gravity;
   
@@ -65,6 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
         player.onGround = false;
       }
     });
+  
+    // 初始化分数显示
+    scoreDisplay.textContent = `Score: ${score}`;
   
     update();
   });
