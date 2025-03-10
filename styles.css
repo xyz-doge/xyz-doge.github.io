@@ -16,37 +16,146 @@ body {
     color: white;
 }
 
+/* 💡 增强渐变动画 */
 @keyframes gradientAnimation {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* 🖋️ 打字机动画 */
-.typewriter {
-    overflow: hidden;
-    border-right: 3px solid white;
-    white-space: nowrap;
-    margin: 0 auto;
-    letter-spacing: 0.1em;
-    animation: typing 3s steps(30, end) forwards, blink 0.75s step-end infinite;
+/* 🏆 让 Header 变得更加酷炫 */
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    transition: 0.5s;
 }
 
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
 }
 
-@keyframes blink {
-    50% { border-color: transparent; }
+nav ul {
+    list-style: none;
+    display: flex;
 }
 
-/* 🎮 Mini Game */
-#gameCanvas {
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: #00ccff;
+}
+
+/* 🎯 加大 Welcome 标题 */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero h1 {
+    font-size: 5rem; /* 变大 */
+    font-weight: 700;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+/* 🚀 炫酷按钮 */
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
     border: 2px solid white;
-    background: black;
-    display: block;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: 0.3s;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+}
+
+.btn:hover {
+    background: white;
+    color: #005f99;
+    transform: scale(1.1);
+}
+
+/* 🔹 让页面 section 增加透明玻璃效果 */
+section {
+    padding: 60px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     margin: 20px auto;
-    width: 400px;
-    height: 300px;
+    width: 80%;
+    backdrop-filter: blur(10px);
+}
+
+/* 🏆 Hobby 栏目增加卡片效果 */
+.project-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.project {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 15px;
+    width: 320px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.project:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.4);
+}
+
+/* 💙 社交媒体图标更大更炫 */
+.social-icons a {
+    font-size: 2rem;
+    margin: 10px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    color: #00ccff;
+    transform: scale(1.2);
+}
+
+/* 🌙 Footer 变暗 */
+footer {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
 }
