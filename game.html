@@ -9,13 +9,14 @@
 </head>
 <body class="game-body">
   <h1>Welcome to the Mini Game</h1>
-  <p>Press <strong>Space</strong> or <strong>↑</strong> to jump. Avoid the obstacles!</p>
+  <p>Click on a tile to place a plant (cost 50 sun). Kill zombies to earn more sun!</p>
 
-  <!-- 游戏画布 -->
-  <canvas id="gameCanvas" width="480" height="320"></canvas>
+  <!-- 游戏画布，640x400 对应 8列 x 5行，每格 80px -->
+  <canvas id="gameCanvas" width="640" height="400"></canvas>
 
-  <!-- 分数显示 -->
+  <!-- 分数和阳光值显示 -->
   <p id="scoreDisplay" style="font-size:1.2rem; margin-top:10px;">Score: 0</p>
+  <p id="sunDisplay" style="font-size:1.2rem; margin-top:10px;">Sun: 50</p>
 
   <a href="index.html" class="btn" style="margin-top:20px;">Back to Home</a>
 </body>
