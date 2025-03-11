@@ -1,26 +1,277 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mini Game - Xiang Yingzhe</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="script.js" defer></script>
-</head>
-<body class="game-body">
-  <h1>Welcome to the Mini Game</h1>
-  <p>Click on a grid cell to plant a Peashooter (cost 50 sun). <br>
-     Collect falling sun drops by clicking them.<br>
-     Zombies will appear in waves; your bullets damage them. <br>
-     Kill zombies to earn score and extra sun!</p>
-
-  <!-- 游戏画布：8列x5行，每格80px，总尺寸640x400 -->
-  <canvas id="gameCanvas" width="640" height="400"></canvas>
-
-  <!-- 分数和阳光显示 -->
-  <p id="scoreDisplay" style="font-size:1.2rem; margin-top:10px;">Score: 0</p>
-  <p id="sunDisplay" style="font-size:1.2rem; margin-top:10px;">Sun: 50</p>
-
-  <a href="index.html" class="btn" style="margin-top:20px;">Back to Home</a>
-</body>
-</html>
+document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.getElementById("gameCanvas");
+  const scoreDisplay = document.getElementById("scoreDisplay");
+  const sunDisplay = document.getElementById("sunDisplay");
+  if (!canvas || !scoreDisplay || !sunDisplay) return;
+  
+  const ctx = canvas.getContext("2d");
+  const COLS = 8, ROWS = 5, CELL_SIZE = 80;
+  let score = 0, sun = 50;
+  let frameCount = 0;
+  
+  // 更新显示
+  function updateDisplays() {
+    scoreDisplay.textContent = `Score: ${score}`;
+    sunDisplay.textContent = `Sun: ${sun}`;
+  }
+  
+  // 定义网格绘制函数
+  function drawGrid() {
+    ctx.strokeStyle = "rgba(255,255,255,0.3)";
+    for (let c = 0; c <= COLS; c++) {
+      ctx.beginPath();
+      ctx.moveTo(c * CELL_SIZE, 0);
+      ctx.lineTo(c * CELL_SIZE, ROWS * CELL_SIZE);
+      ctx.stroke();
+    }
+    for (let r = 0; r <= ROWS; r++) {
+      ctx.beginPath();
+      ctx.moveTo(0, r * CELL_SIZE);
+      ctx.lineTo(COLS * CELL_SIZE, r * CELL_SIZE);
+      ctx.stroke();
+    }
+  }
+  
+  // ================================
+  // 使用 ES6 类建模各类游戏对象
+  // ================================
+  
+  // 植物类（豌豆射手）
+  class Plant {
+    constructor(col, row) {
+      this.col = col;
+      this.row = row;
+      this.cooldown = PLANT_COOLDOWN;
+    }
+    update() {
+      this.cooldown--;
+      if (this.cooldown <= 0) {
+        // 从植物中间发射子弹
+        let x = this.col * CELL_SIZE + CELL_SIZE / 2;
+        let y = this.row * CELL_SIZE + CELL_SIZE / 2;
+        bullets.push(new Bullet(x, y));
+        this.cooldown = PLANT_COOLDOWN;
+      }
+    }
+    draw() {
+      let x = this.col * CELL_SIZE;
+      let y = this.row * CELL_SIZE;
+      ctx.fillStyle = "green";
+      ctx.fillRect(x + 10, y + 10, CELL_SIZE - 20, CELL_SIZE - 20);
+    }
+  }
+  
+  // 僵尸类
+  class Zombie {
+    constructor(row) {
+      this.x = COLS * CELL_SIZE;
+      this.row = row;
+      this.hp = ZOMBIE_BASE_HP + Math.floor(frameCount / 3000);
+      this.speed = ZOMBIE_BASE_SPEED;
+      this.attackTimer = 60;
+    }
+    update() {
+      // 检查当前行是否有植物阻挡
+      let plant = plants.find(p => p.row === this.row && (p.col * CELL_SIZE + CELL_SIZE - 20) >= this.x);
+      if (plant) {
+        this.speed = 0;
+        this.attackTimer--;
+        if (this.attackTimer <= 0) {
+          // 植物被攻击后移除
+          plants = plants.filter(p => !(p.row === this.row && p.col === plant.col));
+          this.speed = ZOMBIE_BASE_SPEED;
+          this.attackTimer = 60;
+        }
+      } else {
+        this.speed = ZOMBIE_BASE_SPEED + (frameCount / 10000);
+      }
+      this.x -= this.speed;
+    }
+    draw() {
+      ctx.fillStyle = "brown";
+      ctx.fillRect(this.x, this.row * CELL_SIZE + 10, CELL_SIZE - 20, CELL_SIZE - 20);
+    }
+  }
+  
+  // 子弹类
+  class Bullet {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      this.speed = BULLET_SPEED;
+      this.damage = BULLET_DAMAGE;
+    }
+    update() {
+      this.x += this.speed;
+    }
+    draw() {
+      ctx.fillStyle = "yellow";
+      ctx.fillRect(this.x, this.y, 8, 4);
+    }
+  }
+  
+  // 阳光类
+  class Sun {
+    constructor(x) {
+      this.x = x;
+      this.y = 0;
+      this.speed = SUN_FALL_SPEED;
+    }
+    update() {
+      this.y += this.speed;
+    }
+    draw() {
+      ctx.fillStyle = "orange";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, 15, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+    isClicked(mouseX, mouseY) {
+      const dx = mouseX - this.x;
+      const dy = mouseY - this.y;
+      return Math.sqrt(dx * dx + dy * dy) < 15;
+    }
+  }
+  
+  // ================================
+  // 全局对象集合
+  // ================================
+  let plants = [];
+  let zombies = [];
+  let bullets = [];
+  let suns = [];
+  
+  // 常量
+  const PLANT_COST = 50;
+  const PLANT_COOLDOWN = 90;
+  const ZOMBIE_BASE_HP = 3;
+  const ZOMBIE_BASE_SPEED = 0.2;
+  const BULLET_SPEED = 2;
+  const BULLET_DAMAGE = 1;
+  const SUN_FALL_SPEED = 0.5;
+  
+  // ================================
+  // 更新与绘制函数
+  // ================================
+  
+  function updatePlants() {
+    plants.forEach(plant => plant.update());
+  }
+  
+  function updateZombies() {
+    zombies.forEach(zombie => zombie.update());
+    zombies = zombies.filter(z => z.x > -CELL_SIZE);
+  }
+  
+  function updateBullets() {
+    bullets.forEach(bullet => bullet.update());
+    bullets = bullets.filter(bullet => bullet.x < COLS * CELL_SIZE);
+  }
+  
+  function updateSuns() {
+    suns.forEach(sunObj => sunObj.update());
+    suns = suns.filter(sunObj => sunObj.y < canvas.height + 20);
+  }
+  
+  function drawObjects() {
+    drawGrid();
+    plants.forEach(plant => plant.draw());
+    zombies.forEach(zombie => zombie.draw());
+    bullets.forEach(bullet => bullet.draw());
+    suns.forEach(sunObj => sunObj.draw());
+  }
+  
+  // 检测子弹与僵尸碰撞
+  function checkBulletCollisions() {
+    bullets.forEach((bullet, bi) => {
+      zombies.forEach((zombie, zi) => {
+        if (
+          bullet.x < zombie.x + (CELL_SIZE - 20) &&
+          bullet.x + 8 > zombie.x &&
+          bullet.y < zombie.row * CELL_SIZE + (CELL_SIZE - 10) &&
+          bullet.y + 4 > zombie.row * CELL_SIZE + 10
+        ) {
+          zombie.hp -= bullet.damage;
+          bullets.splice(bi, 1);
+        }
+      });
+    });
+  }
+  
+  // 移除死亡的僵尸，增加积分和阳光奖励
+  function removeDeadZombies() {
+    for (let i = zombies.length - 1; i >= 0; i--) {
+      if (zombies[i].hp <= 0) {
+        score++;
+        sun += 25;
+        updateDisplays();
+        zombies.splice(i, 1);
+      }
+    }
+  }
+  
+  // 每隔一定帧数生成僵尸，难度逐渐增加
+  function spawnZombie() {
+    if (frameCount % Math.max(180 - Math.floor(frameCount / 300), 60) === 0) {
+      let randRow = Math.floor(Math.random() * ROWS);
+      zombies.push(new Zombie(randRow));
+    }
+  }
+  
+  // 每隔一定帧数生成阳光
+  function spawnSun() {
+    if (frameCount % 240 === 0) {
+      let randCol = Math.floor(Math.random() * COLS);
+      let x = randCol * CELL_SIZE + CELL_SIZE / 2;
+      suns.push(new Sun(x));
+    }
+  }
+  
+  // 游戏主循环
+  function gameLoop() {
+    frameCount++;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawObjects();
+    updatePlants();
+    updateZombies();
+    updateBullets();
+    updateSuns();
+    checkBulletCollisions();
+    removeDeadZombies();
+    spawnZombie();
+    spawnSun();
+    requestAnimationFrame(gameLoop);
+  }
+  
+  // 玩家点击画布收集阳光
+  canvas.addEventListener("click", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    // 检查阳光是否被点击
+    for (let i = suns.length - 1; i >= 0; i--) {
+      if (suns[i].isClicked(mouseX, mouseY)) {
+        sun += 25;
+        updateDisplays();
+        suns.splice(i, 1);
+      }
+    }
+  });
+  
+  // 玩家双击放置植物
+  canvas.addEventListener("dblclick", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    let col = Math.floor(mouseX / CELL_SIZE);
+    let row = Math.floor(mouseY / CELL_SIZE);
+    if (sun >= PLANT_COST && !plants.some(p => p.col === col && p.row === row)) {
+      plants.push(new Plant(col, row));
+      sun -= PLANT_COST;
+      updateDisplays();
+    }
+  });
+  
+  updateDisplays();
+  gameLoop();
+});
