@@ -9,12 +9,15 @@
 </head>
 <body class="game-body">
   <h1>Welcome to the Mini Game</h1>
-  <p>Click on a tile to place a plant (cost 50 sun). Kill zombies to earn more sun!</p>
+  <p>Click on a grid cell to plant a Peashooter (cost 50 sun). <br>
+     Collect falling sun drops by clicking them.<br>
+     Zombies will appear in waves; your bullets damage them. <br>
+     Kill zombies to earn score and extra sun!</p>
 
-  <!-- 游戏画布，640x400 对应 8列 x 5行，每格 80px -->
+  <!-- 游戏画布：8列x5行，每格80px，总尺寸640x400 -->
   <canvas id="gameCanvas" width="640" height="400"></canvas>
 
-  <!-- 分数和阳光值显示 -->
+  <!-- 分数和阳光显示 -->
   <p id="scoreDisplay" style="font-size:1.2rem; margin-top:10px;">Score: 0</p>
   <p id="sunDisplay" style="font-size:1.2rem; margin-top:10px;">Sun: 50</p>
 
